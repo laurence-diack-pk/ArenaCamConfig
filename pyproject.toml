@@ -1,0 +1,80 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "arena-cam-config"
+version = "0.1.0"
+description = "Camera Configuration GUI using Textual for ArenaSDK cameras"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Laurence", email = "laurence.diack@peekrobotics.co.nz"}
+]
+maintainers = [
+    {name = "Laurence", email = "laurence.diack@peekrobotics.co.nz"}
+]
+keywords = ["camera", "configuration", "gui", "textual", "arena", "sdk"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: User Interfaces",
+    "Topic :: Multimedia :: Graphics :: Capture",
+    "Topic :: Scientific/Engineering :: Image Processing",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "textual>=0.41.0",
+    "arena-api>=2.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov",
+    "black",
+    "flake8",
+    "isort",
+    "mypy",
+]
+
+[project.urls]
+Homepage = "https://github.com/laurence-diack-pk/arena-cam-config"
+Documentation = "https://github.com/laurence-diack-pk/arena-cam-config#readme"
+Repository = "https://github.com/laurence-diack-pk/arena-cam-config.git"
+"Bug Tracker" = "https://github.com/laurence-diack-pk/arena-cam-config/issues"
+
+[project.scripts]
+arena-cam-config = "arena_cam_config:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["arena_cam_config*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.txt", "*.md"]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
