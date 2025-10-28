@@ -89,12 +89,14 @@ class DeviceSelectionScreen(ModalScreen):
                 yield Static("No devices found", id="device-info")
                 with Horizontal():
                     yield Button("Refresh", variant="primary", id="refresh")
+                    yield Button("Quit", variant="error", id="quit")
             else:
                 # Set first device as default selection
                 yield Select(self.device_options, value=self.device_options[0][1], id="device-select")
                 with Horizontal():
                     yield Button("Connect", variant="success", id="connect")
-                    yield Button("Refresh", variant="primary", id="refresh") 
+                    yield Button("Refresh", variant="primary", id="refresh")
+                    yield Button("Quit", variant="error", id="quit")
     
     def on_button_pressed(self, event: Button.Pressed) -> None:
         if event.button.id == "connect":
@@ -112,6 +114,8 @@ class DeviceSelectionScreen(ModalScreen):
         elif event.button.id == "refresh":
             self.result = "refresh"
             self.dismiss(self.result)
+        elif event.button.id == "quit":
+            self.app.exit()
 
 
 class ExecuteScreen(ModalScreen):
@@ -248,6 +252,13 @@ class CameraConfigApp(App):
     
     #device-dialog {
         width: 60;
+        height: 50%;
+    }
+
+    #device-dialog Horizontal {
+        width: 100%;
+        align-horizontal: center;
+        margin-top: 2;
     }
     
     #edit-title, #execute-title, #device-title {
@@ -298,6 +309,7 @@ class CameraConfigApp(App):
         Binding("q", "quit", "Quit"),
         Binding("tab", "switch_nodemap", "Switch Nodemap"),
         Binding("r", "refresh", "Refresh"),
+        Binding("d", "disconnect", "Disconnect"),
     ]
     
     current_nodemap = reactive(0)
@@ -403,7 +415,7 @@ class CameraConfigApp(App):
             # Update header with device info after everything is ready
             header_bar = self.query_one("#header-bar", Static)
             header_bar.update(f"Camera Config - {self.device_info['family_name']} {self.device_info['model_name']} - IP: {self.device_info['ip']} - SN: {self.device_info['serial_number']} - {self.nodemap_names[self.current_nodemap]}")
-            self.update_status("Ready - Use Enter to edit values, Tab to switch nodemaps")
+            self.update_status("Ready - Enter to edit, Tab to switch nodemaps, D to disconnect")
             
         except Exception as e:
             self.update_status(f"Error: {str(e)}")
@@ -784,6 +796,40 @@ class CameraConfigApp(App):
         self.update_status("Refreshing tree...")
         self.call_later(self.build_tree)
     
+    def action_disconnect(self) -> None:
+        """Disconnect from the current camera and show device selection again"""
+        if not self.device:
+            self.update_status("No active camera connection to disconnect")
+            return
+
+        try:
+            system.destroy_device()
+        except Exception:
+            pass
+
+        self.device = None
+        self.device_info = {}
+        self.expanded_nodes.clear()
+        self.tree_nodes.clear()
+        self.current_nodemap = 0
+
+        try:
+            tree = self.query_one("#config-tree", Tree)
+            tree.clear()
+            tree.root.label = "Camera Configuration"
+            tree.remove_class("connected")
+        except Exception:
+            pass
+
+        try:
+            header_bar = self.query_one("#header-bar", Static)
+            header_bar.update("Disconnected - scanning for cameras...")
+        except Exception:
+            pass
+
+        self.update_status("Disconnected - scanning for cameras...")
+        self.call_later(self.start_device_selection)
+
     def action_quit(self) -> None:
         """Quit the application"""
         if self.device:
