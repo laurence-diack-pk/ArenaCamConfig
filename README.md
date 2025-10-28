@@ -5,7 +5,7 @@ There was no easy way to edit nodemaps for Lucid cameras on Linux, so here's a t
 
 ## Installation
 
-### From PyPI (when published)
+### From PyPI
 
 ```bash
 pip install arena-cam-config
@@ -45,6 +45,7 @@ arena-cam-config
 - **Mouse**: You can use this too
 - **q**: Quit the application
 - **r**: Refresh the current tree
+- **d**: Disconnect and return to connection screen
 
 ## Parameter Types
 
@@ -99,14 +100,12 @@ I built this to accomplish my specific needs. If it doesn't do something you wan
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## Support
+## TODO
 
-For issues related to:
-- **This package**: Open an issue on GitHub
-- **ArenaSDK**: Contact Lucid Vision Labs support
-- **Camera hardware**: Refer to your camera's documentation
+- Some kind of OpenCV image capture / preview perhaps???
 
 ## Acknowledgments
 
 - Built with [Textual](https://github.com/Textualize/textual) for the terminal UI
 - Designed for [Lucid Vision Labs ArenaSDK](https://thinklucid.com/)
+- ChatGPT did literally all of the CSS so dont @ me
