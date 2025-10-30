@@ -48,9 +48,9 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/laurence-diack-pk/arena-cam-config"
-Documentation = "https://github.com/laurence-diack-pk/arena-cam-config#readme"
-Repository = "https://github.com/laurence-diack-pk/arena-cam-config.git"
+Homepage = "https://github.com/laurence-diack-pk/ArenaCamConfig"
+Documentation = "https://github.com/laurence-diack-pk/ArenaCamConfig#readme"
+Repository = "https://github.com/laurence-diack-pk/ArenaCamConfig.git"
 "Bug Tracker" = "https://github.com/laurence-diack-pk/arena-cam-config/issues"
 
 [project.scripts]
