@@ -157,3 +157,5 @@ cython_debug/
 #  be added to the global gitignore or merged into this project gitignore.  For PyCharm
 #  Community Edition, use 'PyCharm CE' template instead of 'PyCharm'.
 .idea/
+
+*.whl
